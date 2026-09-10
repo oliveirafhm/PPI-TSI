@@ -1,0 +1,12 @@
+<table>
+    <tbody>
+        {% for funcionario in funcionarios %}
+        <tr>
+            <td>{{ funcionario.nome }}</td>
+            <td>{{ funcionario.sobrenome }}</td>
+            <td>{{ funcionario.remuneracao }}</td>
+            <td>{{ funcionario.tempo_de_servico }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

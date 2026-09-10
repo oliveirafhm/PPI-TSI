@@ -32,4 +32,4 @@ class Funcionario(models.Model):
         blank=False
     )
     
-objetos = models.Manager()
+#objetos = models.Manager()

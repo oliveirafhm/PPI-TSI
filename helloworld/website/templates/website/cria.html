@@ -1,0 +1,24 @@
+<form method="post">
+    {% csrf_token %}
+
+    {{ form }}
+
+    <button type="submit">Cadastrar</button>
+</form>
+
+<!-- Segunda opção -->
+
+<!-- <form method="post">
+    {% csrf_token %}
+    <label for="{{ form.nome.id_for_label }}">Nome</label>
+    {{ form.nome }}
+    <label for="{{ form.sobrenome.id_for_label }}">Sobrenome</label>
+    {{ form.sobrenome }}
+    <label for="{{ form.cpf.id_for_label }}">CPF</label>
+    {{ form.cpf }}
+    <label for="{{ form.tempo_de_servico.id_for_label }}">Tempo de Serviço</label>
+    {{ form.tempo_de_servico }}
+    <label for="{{ form.remuneracao.id_for_label }}">Remuneração</label>
+    {{ form.remuneracao }}
+    <button type="submit">Cadastrar</button>
+</form> -->

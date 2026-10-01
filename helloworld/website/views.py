@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from helloworld.models import Funcionario
 from django.views.generic import ListView, UpdateView, DeleteView, CreateView
+from website.forms import InsereFuncionarioForm
 
 def index(request):
     return lista_funcionarios(request)
@@ -41,5 +42,5 @@ class FuncionarioDeleteView(DeleteView):
 class FuncionarioCreateView(CreateView):
     template_name = "website/cria.html"
     model = Funcionario
-    # form_class = InsereFuncionarioForm
+    form_class = InsereFuncionarioForm
     success_url = reverse_lazy("website:lista_funcionarios")

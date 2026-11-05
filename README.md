@@ -2,7 +2,7 @@
 
 Projeto desenvolvido durante a componente curricular **Programação para Internet**, do Curso Superior de Tecnologia em Sistemas de Informação (TSI) do Instituto Federal de Brasília (Campus Brasília).
 
-O projeto consiste numa API Web RESTful para registo, consulta, filtragem e gestão de indicadores financeiros de **Fundos de Investimento Imobiliário (FIIs)**, desenvolvida de forma progressiva com recurso ao Django e ao Django REST Framework (DRF).
+O projeto consiste em uma API Web RESTful para cadastro, consulta, filtragem e gerenciamento de indicadores financeiros de **Fundos de Investimento Imobiliário (FIIs)**, desenvolvida de forma progressiva utilizando Python, Django e Django REST Framework (DRF).
 
 ## Professor
 
@@ -17,11 +17,11 @@ E-mail: `fabio.oliveira@ifb.edu.br`
 - django-filter
 - SQLite
 - Git e GitHub
-- Postman (testes e validação de endpoints)
+- Postman (testes e validação de requisições)
 
 ## Estrutura do projeto
 
-A organização das pastas e ficheiros do projeto segue a seguinte disposição:
+A organização dos diretórios e arquivos do projeto segue a seguinte estrutura:
 
 ```text
 fundsfinder/
@@ -52,16 +52,16 @@ fundsfinder/
 
 ## Arquitetura e camadas da API
 
-O desenvolvimento com o Django REST Framework assenta no fluxo de quatro camadas principais:
+O desenvolvimento com o Django REST Framework baseia-se no fluxo de quatro etapas principais:
 
-1. **Model (`api/models.py`)**: Definição da entidade `FundoImobiliario`, armazenando código de negociação (`codigo`), setor de atuação, dividend yield médio, vacâncias e quantidade de imóveis, com chave primária em formato UUID.
-2. **Serializer (`api/serializers.py`)**: Mapeamento bidirecional via `ModelSerializer`, convertendo instâncias do Django ORM em dados estruturados (JSON) e executando a validação dos dados recebidos nas requisições.
+1. **Model (`api/models.py`)**: Definição da entidade `FundoImobiliario`, armazenando ticker (`codigo`), setor de atuação, dividend yield médio, vacâncias e quantidade de ativos com identificador único universal (UUID v4).
+2. **Serializer (`api/serializers.py`)**: Mapeamento bidirecional via `ModelSerializer`, convertendo instâncias do Django ORM em tipos primitivos do Python (para envio em JSON) e validando os dados recebidos para gravação.
 3. **Views / ViewSets (`api/views.py`)**: Implementação da lógica de negócio e resposta a operações REST (através de `APIView` ou `ModelViewSet`).
-4. **Routers e URLs (`api/urls.py` e `fundsfinder/urls.py`)**: Configuração de rotas automatizadas e versionamento dos serviços sob o prefixo `/api/v1/`.
+4. **Routers e URLs (`api/urls.py` e `fundsfinder/urls.py`)**: Mapeamento e geração automática de rotas sob o prefixo padronizado `/api/v1/`.
 
-## Configuração do ambiente virtual
+## Ambiente virtual e dependências
 
-Recomenda-se a utilização de um ambiente virtual para isolamento das dependências da aplicação.
+Recomenda-se a utilização de um ambiente virtual para isolar as dependências do projeto.
 
 ### 1. Criar e ativar o ambiente virtual (Windows)
 
@@ -75,69 +75,69 @@ Ative o ambiente virtual:
 .venv\Scripts\activate
 ```
 
-*(O terminal exibirá a indicação `(.venv)` no início da linha de comandos).*
+*(O terminal exibirá a indicação `(.venv)` no início da linha de comando confirmando a ativação).*
 
-### 2. Instalação de dependências
+### 2. Instalação dos pacotes necessários
 
-Com o ambiente ativado, instale os módulos necessários:
+Com o ambiente virtual ativado, instale as dependências:
 
 ```cmd
 pip install django djangorestframework django-filter
 ```
 
-Caso esteja a configurar o projeto a partir do repositório:
+Caso esteja clonando o repositório em uma nova máquina:
 
 ```cmd
 pip install -r requirements.txt
 ```
 
-Para atualizar o ficheiro de dependências:
+Para salvar e congelar as versões instaladas no arquivo de dependências:
 
 ```cmd
 pip freeze > requirements.txt
 ```
 
-## Base de dados e migrações
+## Banco de dados e migrações
 
-Após configurar o modelo `FundoImobiliario`, gere e aplique as migrações:
+Após a definição do modelo `FundoImobiliario`, gere e aplique as migrações para criar as tabelas no SQLite:
 
 ```cmd
 python manage.py makemigrations api
 python manage.py migrate
 ```
 
-Crie o utilizador administrador para acesso ao painel e à API autenticada:
+Crie um superusuário para gerenciar a aplicação e testar acessos autenticados na API:
 
 ```cmd
 python manage.py createsuperuser
 ```
 
-## Execução da aplicação
+## Executando o projeto
 
-Inicie o servidor de desenvolvimento local:
+Inicie o servidor local de desenvolvimento:
 
 ```cmd
 python manage.py runserver
 ```
 
-Aceda aos serviços através do navegador:
+Acesse os serviços pelo navegador:
 
 * **Django Admin:** [http://localhost:8000/admin/](http://localhost:8000/admin/)
 * **Interface Navegável da API (DRF Browsable API):** [http://localhost:8000/api/v1/](http://localhost:8000/api/v1/)
-* **Lista de Fundos:** [http://localhost:8000/api/v1/fundos](http://localhost:8000/api/v1/fundos)
+* **Endpoint de Fundos:** [http://localhost:8000/api/v1/fundos](http://localhost:8000/api/v1/fundos)
 
 ## Endpoints da API
 
 | Método HTTP | Endpoint | Descrição |
 | :--- | :--- | :--- |
-| `GET` | `/api/v1/fundos` | Listagem de todos os fundos registados |
-| `POST` | `/api/v1/fundos` | Criação de um novo fundo imobiliário |
-| `GET` | `/api/v1/fundos/{id}` | Obtenção dos dados de um fundo por UUID |
-| `PUT` | `/api/v1/fundos/{id}` | Atualização integral de um fundo por UUID |
-| `PATCH` | `/api/v1/fundos/{id}` | Atualização parcial de um fundo por UUID |
-| `DELETE` | `/api/v1/fundos/{id}` | Remoção de um fundo da base de dados |
+| `GET` | `/api/v1/fundos` | Lista todos os fundos cadastrados |
+| `POST` | `/api/v1/fundos` | Cria um novo registro de fundo imobiliário |
+| `GET` | `/api/v1/fundos/{id}` | Recupera os detalhes de um fundo pelo UUID |
+| `PUT` | `/api/v1/fundos/{id}` | Atualização integral de um fundo pelo UUID |
+| `PATCH` | `/api/v1/fundos/{id}` | Atualização parcial de um fundo pelo UUID |
+| `DELETE` | `/api/v1/fundos/{id}` | Remove um fundo do banco de dados pelo UUID |
 
-### Exemplo de Payload para Envio (POST / PUT)
+### Exemplo de Payload para Criação / Edição (POST / PUT)
 
 ```json
 {
@@ -150,27 +150,31 @@ Aceda aos serviços através do navegador:
 }
 ```
 
-## Recursos de consulta: filtros, busca e paginação
+## Filtros, Busca Textual e Paginação
 
-* **Filtro por setor:** `/api/v1/fundos?setor=logistica`
+* **Filtro por atributo:** `/api/v1/fundos?setor=logistica`
 * **Busca textual:** `/api/v1/fundos?search=XPLG11`
-* **Ordenação de dados:** `/api/v1/fundos?ordering=-dividend_yield_medio_12m`
-* **Paginação:** Resultados estruturados por padrão com metadados (`count`, `next`, `previous`, `results`).
+* **Ordenação de resultados:** `/api/v1/fundos?ordering=-dividend_yield_medio_12m`
+* **Paginação:** Resultados estruturados por padrão com metadados de paginação (`count`, `next`, `previous`, `results`).
 
-## Controlo de versões (Git)
+## Controle de versão com Git
 
-As etapas de implementação devem ser devidamente comitadas no repositório:
+### Inicialização e envio da branch dedicada
+
+Para versionar este projeto em uma branch independente dentro do repositório da disciplina:
 
 ```cmd
-git status
+git init
+git checkout -b api-fundsfinder
 git add .
-git commit -m "feat: implementa camada de serialização e views da API"
-git push
+git commit -m "feat: commit inicial do projeto da API fundsfinder"
+git remote add origin [https://github.com/oliveirafhm/PPI-TSI.git](https://github.com/oliveirafhm/PPI-TSI.git)
+git push -u origin api-fundsfinder
 ```
 
-### Ficheiros ignorados (`.gitignore`)
+### Arquivos ignorados (`.gitignore`)
 
-Certifique-se de que o ficheiro `.gitignore` impede a submissão de dependências locais e artefactos de compilação:
+O arquivo `.gitignore` impede o versionamento de dados sensíveis, arquivos temporários de compilação e do ambiente virtual:
 
 ```text
 .venv/
